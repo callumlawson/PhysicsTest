@@ -13,8 +13,7 @@ namespace Assets.Scripts
         private void Start ()
         {
             npcRigidbodyList = NpcSpawner.NpcRigidbodyList;
-            Application.targetFrameRate = 30;
-            Physics.autoSyncTransforms = false;
+           
         }
 	
         // Update is called once per frame

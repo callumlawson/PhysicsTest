@@ -7,7 +7,7 @@ namespace Assets.Scripts
 {
     public class TestControls : MonoBehaviour
     {
-        public NpcSpawner Spawner;
+        public NpcSpawner NpcSpawner;
         public InputField NumNPCs;
         public Button RestartButton;
 
@@ -16,7 +16,7 @@ namespace Assets.Scripts
         private void Start () {
             RestartButton.onClick.AddListener(() =>
             {
-                Spawner.SpawnNpcs(Convert.ToInt32(NumNPCs.text));
+                NpcSpawner.SpawnNpcs(Convert.ToInt32(NumNPCs.text));
             });
         }
     }

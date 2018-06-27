@@ -4,17 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
     public class NpcSpawner : MonoBehaviour
     {
         [UsedImplicitly] public GameObject Npc;
-
-        public int StartingNPCs = 1000;
-        public int SpawnRadius = 5000;
 
         public static bool IsSimulating;
         public static readonly List<GameObject> NpcList = new List<GameObject>(5000);
@@ -29,32 +26,13 @@ namespace Assets.Scripts
         {
             stopwatch = new Stopwatch();
             stopwatch.Start();
-            SpawnNpcs(GetNumNpcs());
-
+            SpawnNpcs(TestRunner.Instance.NumNpcs);
+            NavMesh.pathfindingIterationsPerFrame = 99999;
         }
 
         public void SpawnNpcs(int numNPCs)
         {
             StartCoroutine(SpawnCoroutine(numNPCs));
-        }
-
-        private int GetNumNpcs()
-        {
-            var args = Environment.GetCommandLineArgs();
-            for (var i = 0; i < args.Length; i++)
-            {
-                Debug.Log("Command line argument: " + i + ": " + args[i]);
-                if (args[i] == "-numNpcs")
-                {
-                    var input = args[i + 1];
-                    var numNpcs = Convert.ToInt32(input);
-                    if (numNpcs > 0)
-                    {
-                        return numNpcs;
-                    }
-                }
-            }
-            return StartingNPCs;
         }
 
         private IEnumerator SpawnCoroutine(int numNPCs)
@@ -63,7 +41,7 @@ namespace Assets.Scripts
             ClearExistingNpcs();
             for (var i = 0; i < numNPCs; i++)
             {
-                var newNpc = Instantiate(Npc, RandomPosition(), Quaternion.identity);
+                var newNpc = Instantiate(Npc, Util.RandomPosition(TestRunner.Instance.SpawnRadius), Quaternion.identity);
                 NpcList.Add(newNpc);
                 NpcRigidbodyList.Add(newNpc.GetComponent<Rigidbody>());
                 if ((i+1) % 500 == 0)
@@ -87,12 +65,6 @@ namespace Assets.Scripts
                 Destroy(npc);
             }
             NpcList.Clear();
-        }
-
-        private Vector3 RandomPosition()
-        {
-            var insideCircle = Random.insideUnitCircle * SpawnRadius;
-            return new Vector3(insideCircle.x, 1, insideCircle.y);
         }
     }
 }

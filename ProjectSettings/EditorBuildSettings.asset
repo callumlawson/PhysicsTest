@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/BasicTestScene.unity
+  - enabled: 0
+    path: Assets/Scenes/KinetmaticTestScene.unity
     guid: bdd54e60659868b4c91be86c5eb6f0fc
+  - enabled: 1
+    path: Assets/Scenes/BasicPathingTest.unity
+    guid: d2149f62144a84f418fc9bad8e091425

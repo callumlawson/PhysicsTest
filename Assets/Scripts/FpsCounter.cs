@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts
 {
@@ -11,6 +12,8 @@ namespace Assets.Scripts
         public float PhysicsFramesPerSecond;
 
         private const int NumFramesSampled = 10;
+        private const int NumFramesBetweenDebugPrints = 30;
+        private int frameCount = 1;
         private Stopwatch stopwatch;
         private TimeSpan lastTime;
         private Queue<double> frameTimes;
@@ -45,6 +48,13 @@ namespace Assets.Scripts
 
             PhysicsFramesPerSecond = 1.0f / (averageDifference / 1000.0f);
             lastTime = latest;
+
+            frameCount++;
+            if (frameCount % NumFramesBetweenDebugPrints == 0)
+            {
+                frameCount = 1;
+                Debug.Log("PhysicsFramesPerSecond: " + PhysicsFramesPerSecond);
+            }
         }
     }
 }
